@@ -1,53 +1,131 @@
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
 import './CreateEmployee.scss';
-import {useForm} from 'react-hook-form';
+import {useForm, Controller} from 'react-hook-form';
+import {useDispatch} from "react-redux";
+import {addEmployee} from "../../features/employee/employeeSlice";
+import {DatePicker} from "react-date-picker";
+import { format } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
 
 function CreateEmployee() {
-    const {register, handleSubmit, formState: {errors}} = useForm();
-    const onSubmit = data => console.log(data);
+    const {control, register, setValue, handleSubmit, formState: {errors}} = useForm();
+    const dispatch = useDispatch();
+
+    const onSubmit = data => {
+        const timeZone = 'Europe/Paris';
+
+        const startDateUtc = toZonedTime(data.StartDate, timeZone);
+        const dateOfBirthUtc = toZonedTime(data.DateofBirth, timeZone);
+
+        let cleanData = {
+            ...data,
+            DateofBirth: format(dateOfBirthUtc, 'yyyy-MM-dd'),
+            StartDate: format(startDateUtc, 'yyyy-MM-dd'),
+        };
+
+        dispatch(addEmployee({data: cleanData}));
+
+    };
+
+    function getRandomName() {
+        const names = ['John Doe', 'Jane Smith', 'Alice Johnson', 'Bob Brown'];
+        return names[Math.floor(Math.random() * names.length)];
+    }
+
+    function getRandomDate() {
+        const start = new Date(1950, 0, 1);
+        const end = new Date();
+        const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+        return date.toISOString().substring(0, 10);
+    }
+
+    function randomFillForm() {
+        let form = document.querySelector('form');
+        let allInputs = form.querySelectorAll('input');
+        let allSelects = form.querySelectorAll('select');
+        allInputs.forEach(function (inputTmp) {
+            if(Array.from(inputTmp.classList).some(cls => cls.startsWith('react')))
+                return
+
+            switch (inputTmp.type) {
+                case 'text':
+                    setValue(inputTmp.getAttribute('id'), getRandomName());
+                    break;
+                case 'number':
+                    setValue(inputTmp.getAttribute('id'), Math.floor(Math.random() * 90000) + 10000);
+                    break;
+            }
+        });
+
+        allSelects.forEach(function (selectTmp) {
+            setValue(selectTmp.getAttribute(('id')), selectTmp.options[Math.floor(Math.random() * selectTmp.options.length)].value);
+        })
+    }
 
     return (
         <div id="CreateEmployee">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <span>
                     <div>
-                        <label htmlFor="firstName">First Name</label>
-                        <input id="firstName" {...register('firstName', {required: true})} />
-                        {errors.firstName && <span className="error">Ce champs est requis</span>}
+                        <label htmlFor="FirstName">First Name</label>
+                        <input id="FirstName" {...register('FirstName', {required: true})} />
+                        {errors.FirstName && <span className="error">Ce champs est requis</span>}
                     </div>
                     <div>
-                        <label htmlFor="lastName">Last Name</label>
-                        <input id="lastName" {...register('lastName', {required: true})} />
-                        {errors.lastName && <span className="error">Ce champs est requis</span>}
+                        <label htmlFor="LastName">Last Name</label>
+                        <input id="LastName" {...register('LastName', {required: true})} />
+                        {errors.LastName && <span className="error">Ce champs est requis</span>}
                     </div>
                     <div>
-                        <label htmlFor="birthDate">Date of Birth</label>
-                        <input id="birthDate" type="date" {...register('birthDate', {required: true})} />
-                        {errors.birthDate && <span className="error">Ce champs est requis</span>}
+                        <label htmlFor="StartDate">StartDate</label>
+                        <Controller
+                            control={control}
+                            name="StartDate"
+                            render={({field}) => (
+                                <DatePicker
+                                    format="dd-MM-yyyy"
+                                    id="StartDate"
+                                    onChange={(date) => field.onChange(date)}
+                                    value={field.value}
+                                />
+                            )}
+                        />
                     </div>
                     <div>
-                        <label htmlFor="startDate">Start Date</label>
-                        <input id="startDate" type="date" {...register('startDate', {required: true})} />
-                        {errors.startDate && <span className="error">Ce champs est requis</span>}
+                        <label htmlFor="DateofBirth">DateofBirth</label>
+                        <Controller
+                            control={control}
+                            name="DateofBirth"
+                            render={({field}) => (
+                                <DatePicker
+                                    format="dd-MM-yyyy"
+                                    id="DateofBirth"
+                                    onChange={(date) => field.onChange(date)}
+                                    value={field.value}
+                                />
+                            )}
+                        />
                     </div>
                 </span>
 
                 <fieldset>
                     <legend>Address</legend>
                     <div>
-                        <label htmlFor="street">Street</label>
-                        <input id="street" {...register('street', {required: true})} />
-                        {errors.street && <span className="error">Ce champs est requis</span>}
+                        <label htmlFor="Street">Street</label>
+                        <input id="Street" {...register('Street', {required: true})} />
+                        {errors.Street && <span className="error">Ce champs est requis</span>}
                     </div>
 
                     <div>
-                        <label htmlFor="city">City</label>
-                        <input id="city" {...register('city', {required: true})} />
-                        {errors.city && <span className="error">Ce champs est requis</span>}
+                        <label htmlFor="City">City</label>
+                        <input id="City" {...register('City', {required: true})} />
+                        {errors.City && <span className="error">Ce champs est requis</span>}
                     </div>
 
                     <div>
-                        <label htmlFor="state">State</label>
-                        <select id="state" {...register('state', {required: true})}>
+                        <label htmlFor="State">State</label>
+                        <select id="State" {...register('State', {required: true})}>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
                             <option value="AS">American Samoa</option>
@@ -108,30 +186,31 @@ function CreateEmployee() {
                             <option value="WI">Wisconsin</option>
                             <option value="WY">Wyoming</option>
                         </select>
-                        {errors.state && <span className="error">Ce champs est requis</span>}
+                        {errors.State && <span className="error">Ce champs est requis</span>}
                     </div>
 
                     <div>
-                        <label htmlFor="zipCode">ZipCode</label>
-                        <input id="zipCode" type={"number"} min={0} {...register('zipCode', {required: true})} />
-                        {errors.zipCode && <span className="error">Ce champs est requis</span>}
+                        <label htmlFor="ZipCode">ZipCode</label>
+                        <input id="ZipCode" type={"number"} min={0} {...register('ZipCode', {required: true})} />
+                        {errors.ZipCode && <span className="error">Ce champs est requis</span>}
                     </div>
                 </fieldset>
 
                 <div>
-                    <label htmlFor="departement">Departement</label>
-                    <select id="departement" {...register('departement', {required: true})}>
+                    <label htmlFor="Department">Departement</label>
+                    <select id="Department" {...register('Department', {required: true})}>
                         <option value={"Sales"}>Sales</option>
                         <option value={"Marketing"}>Marketing</option>
                         <option value={"Engineering"}>Engineering</option>
                         <option value={"Human"}>Human Resources</option>
                         <option value={"Legal"}>Legal</option>
                     </select>
-                    {errors.departement && <span className="error">Ce champs est requis</span>}
+                    {errors.Department && <span className="error">Ce champs est requis</span>}
                 </div>
 
                 <button>&#128190; Enregistrer</button>
             </form>
+            <button onClick={randomFillForm}>randomfillform</button>
         </div>
     );
 }

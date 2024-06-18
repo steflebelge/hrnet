@@ -1,6 +1,9 @@
 import './EmployeeList.scss';
+import {useSelector} from "react-redux";
 
 function EmployeeList() {
+    const employees = useSelector((state) => state.employeeSlice.employees);
+    debugger
     return (
         <div id="EmployeeList">
             <span id="top">

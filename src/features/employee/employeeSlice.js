@@ -1,51 +1,69 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-    "FirstName": null,
-    "LastName": null,
-    "StartDate": null,
-    "Department": null,
-    "DateofBirth": null,
-    "Street": null,
-    "City": null,
-    "State": null,
-    "ZipCode": null,
+    currentEmployee: {
+        FirstName: null,
+        LastName: null,
+        StartDate: null,
+        Department: null,
+        DateofBirth: null,
+        Street: null,
+        City: null,
+        State: null,
+        ZipCode: null,
+    },
+    employees: [] // Liste pour stocker les employés
 };
 
 const employeeSlice = createSlice({
-    name: "employee",
+    name: "employeeSlice",
     initialState: initialState,
     reducers: {
         setFirstName: (state, action) => {
-            state.FirstName = action.payload;
+            state.currentEmployee.FirstName = action.payload;
         },
         setLastName: (state, action) => {
-            state.LastName = action.payload;
+            state.currentEmployee.LastName = action.payload;
         },
         setStartDate: (state, action) => {
-            state.StartDate = action.payload;
+            state.currentEmployee.StartDate = action.payload;
         },
         setDepartment: (state, action) => {
-            state.Department = action.payload;
+            state.currentEmployee.Department = action.payload;
         },
         setDateofBirth: (state, action) => {
-            state.DateofBirth = action.payload;
+            state.currentEmployee.DateofBirth = action.payload;
         },
         setStreet: (state, action) => {
-            state.Street = action.payload;
+            state.currentEmployee.Street = action.payload;
         },
         setCity: (state, action) => {
-            state.City = action.payload;
+            state.currentEmployee.City = action.payload;
         },
         setState: (state, action) => {
-            state.State = action.payload;
+            state.currentEmployee.State = action.payload;
         },
         setZipCode: (state, action) => {
-            state.ZipCode = action.payload;
+            state.currentEmployee.ZipCode = action.payload;
+        },
+        addEmployee: (state, action) => {
+            console.log(action.payload.data);
+            state.employees.push(action.payload.data);
         },
     }
 });
 
 
-export const {setFirstName, setLastName, setStartDate, setDepartment, setDateofBirth, setStreet, setCity, setState, setZipCode } = employeeSlice.actions;
+export const {
+    setFirstName,
+    setLastName,
+    setStartDate,
+    setDepartment,
+    setDateofBirth,
+    setStreet,
+    setCity,
+    setState,
+    setZipCode,
+    addEmployee
+} = employeeSlice.actions;
 export default employeeSlice.reducer;
