@@ -2,13 +2,15 @@ import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import './CreateEmployee.scss';
 import {useForm, Controller} from 'react-hook-form';
-import {useDispatch} from "react-redux";
-import {addEmployee} from "../../features/employee/employeeSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {addEmployee, setEmployees} from "../../features/employee/employeeSlice";
 import {DatePicker} from "react-date-picker";
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
+import {useEffect} from "react";
 
 function CreateEmployee() {
+    const employees = useSelector((state) => state.employeeSlice.employees);
     const {control, register, setValue, handleSubmit, formState: {errors}} = useForm();
     const dispatch = useDispatch();
 
@@ -25,11 +27,10 @@ function CreateEmployee() {
         };
 
         dispatch(addEmployee({data: cleanData}));
-
     };
 
     function getRandomName() {
-        const names = ['John Doe', 'Jane Smith', 'Alice Johnson', 'Bob Brown'];
+        const names = ['John Doe', 'Jane Smith', 'Alice Johnson', 'Bob Brown', 'jonny dette', 'matt demon', 'Jean paul roux'];
         return names[Math.floor(Math.random() * names.length)];
     }
 
@@ -62,6 +63,20 @@ function CreateEmployee() {
             setValue(selectTmp.getAttribute(('id')), selectTmp.options[Math.floor(Math.random() * selectTmp.options.length)].value);
         })
     }
+
+    // Exécuter du code spécifique lorsque les employés sont mis à jour
+    useEffect(() => {
+        if (employees.length > 0
+        && JSON.stringify(employees) !== localStorage.getItem('employees')) {
+            localStorage.setItem('employees', JSON.stringify(employees));
+        }
+    }, [employees]);
+    useEffect(() => {
+        //si pas d employés, on va chercher dans le localStorage
+        if (employees.length === 0) {
+            dispatch(setEmployees(JSON.parse(localStorage.getItem('employees'))));
+        }
+    }, []);
 
     return (
         <div id="CreateEmployee">

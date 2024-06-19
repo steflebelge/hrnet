@@ -19,6 +19,9 @@ const employeeSlice = createSlice({
     name: "employeeSlice",
     initialState: initialState,
     reducers: {
+        setEmployees: (state, action) => {
+            state.employees = action.payload;
+        },
         setFirstName: (state, action) => {
             state.currentEmployee.FirstName = action.payload;
         },
@@ -62,6 +65,7 @@ export const {
     setDateofBirth,
     setStreet,
     setCity,
+    setEmployees,
     setState,
     setZipCode,
     addEmployee
