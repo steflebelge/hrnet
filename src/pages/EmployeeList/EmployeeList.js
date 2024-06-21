@@ -7,7 +7,10 @@ import {setEmployees} from "../../features/employee/employeeSlice";
 function EmployeeList() {
     const employees = useSelector((state) => state.employeeSlice.employees);
     const [search, setSearch] = useState("");
-    const [nbEntries, setNbEntries] = useState(10);
+    const [chiffreUn, setChiffreUn] = useState(0);
+    const [chiffreDeux, setChiffreDeux] = useState(0);
+    const [chiffreTrois, setChiffreTrois] = useState(employees.length);
+    const [nbPageEntries, setNbPageEntries] = useState(10);
     const structureTableau = {
         "FirstName": "Firstname",
         "LastName": "Lastname",
@@ -28,12 +31,23 @@ function EmployeeList() {
         }
     }, []);
 
+    useEffect(() => {
+        if(chiffreDeux > 0)
+            setChiffreUn(1);
+        else
+            setChiffreUn(0);
+        debugger
+    }, [chiffreDeux]);
+    useEffect(() => {
+        setChiffreTrois(employees.length);
+    }, [employees]);
+
     return (
         <div id="EmployeeList">
             <span id="top">
                <div>
                     Show
-                <select onChange={(newValue) => setNbEntries(newValue.target.value)} defaultValue={nbEntries} name="" id="">
+                <select onChange={(newValue) => setNbPageEntries(newValue.target.value)} defaultValue={nbPageEntries} name="" id="">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -49,14 +63,22 @@ function EmployeeList() {
             <Tableau
                 structureTableau={structureTableau}
                 search={search}
-                nbEntries={nbEntries}
+                nbPageEntries={nbPageEntries}
+                setChiffreUn={setChiffreUn}
+                setChiffreDeux={setChiffreDeux}
             />
 
             <span id="bottom">
-                <p>Showing 0 to 0 of {employees.length} entries</p>
+                <p>
+                    Showing  {chiffreUn} to {chiffreDeux} of {chiffreTrois} entries
+                    {search && search !== "" && chiffreTrois !== employees.length && (
+                        ` (filtered from ${employees.length} total entries)`
+                    )}
+                </p>
                 <div>
-                    <a href="">Previous</a>
-                    <a href="">Next</a>
+                    <a>Previous</a>
+                    <button></button>
+                    <a>Next</a>
                 </div>
             </span>
         </div>

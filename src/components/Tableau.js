@@ -1,9 +1,10 @@
 import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 
-function Tableau({structureTableau, search, nbEntries}) {
+function Tableau({structureTableau, search, nbPageEntries, setChiffreDeux}) {
     const [sortBy, setSortBy] = useState("FirstName");
     const [sortAsc, setSortAsc] = useState(true);
+    const [nbShownEntries, setNbShownEntries] = useState(0);
     const [employees, setEmployees] = useState(useSelector((state) => state.employeeSlice.employees));
     const [keysEmployees, setKeysEmployees] = useState([]);
     let keysStructure = Object.keys(structureTableau);
@@ -15,9 +16,6 @@ function Tableau({structureTableau, search, nbEntries}) {
             document.getElementById(keyTri).classList.toggle("arrowTop");
             document.getElementById(keyTri).classList.toggle("arrowDown");
         } else {
-            //recuperation du th de thead concerncé
-            let concernedElt = document.getElementById(keyTri);
-
             //set du sortBy
             setSortBy(keyTri);
             setSortAsc(true);
@@ -66,13 +64,29 @@ function Tableau({structureTableau, search, nbEntries}) {
                     ligneTmp.classList.remove('dispNone');
                 });
             }
+            setChiffreDeux(document.querySelectorAll('tr:not([id]):not(.dispNone)').length);
         }
     }, [search]);
     useEffect(() => {
-        if(document.querySelectorAll('tr:not([id]):not(.dispNone)').length > nbEntries){
-            debugger
+        let lignesHiddenEmployees = document.querySelectorAll('tr.dispNone:not([id])');
+        let lignesEmployees = document.querySelectorAll('tr:not([id]):not(.dispNone)');
+
+        if(lignesEmployees.length < nbPageEntries){
+            while (lignesEmployees.length < nbPageEntries && lignesHiddenEmployees.length > 0) {
+                lignesHiddenEmployees[0].classList.remove('dispNone');
+
+                lignesHiddenEmployees = document.querySelectorAll('tr.dispNone:not([id])');
+                lignesEmployees = document.querySelectorAll('tr:not([id]):not(.dispNone)');
+            }
+        }else {
+            while (lignesEmployees.length > nbPageEntries) {
+                [].slice.call(lignesEmployees).pop().classList.add('dispNone');
+                lignesEmployees = document.querySelectorAll('tr:not([id]):not(.dispNone)');
+            }
         }
-    }, [nbEntries]);
+        setNbShownEntries(10);
+        setChiffreDeux(lignesEmployees.length);
+    }, [nbPageEntries, employees]);
 
     return (
         <table>
