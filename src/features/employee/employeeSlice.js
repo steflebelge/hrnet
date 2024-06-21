@@ -12,7 +12,7 @@ const initialState = {
         State: null,
         ZipCode: null,
     },
-    employees: [] // Liste pour stocker les employés
+    employees: []
 };
 
 const employeeSlice = createSlice({

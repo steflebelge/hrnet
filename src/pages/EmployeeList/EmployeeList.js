@@ -1,16 +1,19 @@
 import './EmployeeList.scss';
 import {useDispatch, useSelector} from "react-redux";
 import Tableau from "../../components/Tableau";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {setEmployees} from "../../features/employee/employeeSlice";
+import {
+    setCurrentPage,
+    setMatchingEmployees,
+    setNbPageShow,
+    setTermeSearch
+} from "../../features/research/researchSlice";
+import {updatePagination, updateTermeSearch} from "../../utils/thunk";
 
 function EmployeeList() {
     const employees = useSelector((state) => state.employeeSlice.employees);
-    const [search, setSearch] = useState("");
-    const [chiffreUn, setChiffreUn] = useState(0);
-    const [chiffreDeux, setChiffreDeux] = useState(0);
-    const [chiffreTrois, setChiffreTrois] = useState(employees.length);
-    const [nbPageEntries, setNbPageEntries] = useState(10);
+    const research = useSelector((state) => state.researchSlice);
     const structureTableau = {
         "FirstName": "Firstname",
         "LastName": "Lastname",
@@ -28,26 +31,36 @@ function EmployeeList() {
         //si pas d employés, on va chercher dans le localStorage
         if (employees.length === 0) {
             dispatch(setEmployees(JSON.parse(localStorage.getItem('employees'))));
+            dispatch(setMatchingEmployees(JSON.parse(localStorage.getItem('employees'))));
+            dispatch(updatePagination());
         }
     }, []);
 
-    useEffect(() => {
-        if(chiffreDeux > 0)
-            setChiffreUn(1);
-        else
-            setChiffreUn(0);
-        debugger
-    }, [chiffreDeux]);
-    useEffect(() => {
-        setChiffreTrois(employees.length);
-    }, [employees]);
+    function handleNbPageShowChange(value) {
+        dispatch(setNbPageShow(value));
+        dispatch(updatePagination());
+    }
+
+    function handleTermeSearchChange(value) {
+        dispatch(setTermeSearch(value));
+        dispatch(updateTermeSearch());
+    }
+
+    function handlePagination(newPage) {
+        if(newPage > 0
+            && newPage <= Math.ceil(research.MatchingEmployees.length / research.NbPageShow)) {
+            dispatch(setCurrentPage(newPage));
+            dispatch(updatePagination());
+        }
+    }
 
     return (
         <div id="EmployeeList">
             <span id="top">
                <div>
                     Show
-                <select onChange={(newValue) => setNbPageEntries(newValue.target.value)} defaultValue={nbPageEntries} name="" id="">
+                <select onChange={(newValue) => handleNbPageShowChange(newValue.target.value)} defaultValue={research.NbPageShow} name="" id="">
+                    <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -56,29 +69,25 @@ function EmployeeList() {
                 entries
                </div>
                 <div>
-                    Search : <input onChange={(newValue) => setSearch(newValue.target.value)} type="text"/>
+                    Search : <input onChange={(newValue) => handleTermeSearchChange(newValue.target.value)} type="text"/>
                 </div>
             </span>
 
             <Tableau
                 structureTableau={structureTableau}
-                search={search}
-                nbPageEntries={nbPageEntries}
-                setChiffreUn={setChiffreUn}
-                setChiffreDeux={setChiffreDeux}
             />
 
             <span id="bottom">
                 <p>
-                    Showing  {chiffreUn} to {chiffreDeux} of {chiffreTrois} entries
-                    {search && search !== "" && chiffreTrois !== employees.length && (
+                    Showing  {research.DebPage} to {research.FinPage} of {research.NbTotalSearch} entries
+                    {research.TermeSearch && research.TermeSearch !== "" && research.MatchingEmployees.length !== employees.length && (
                         ` (filtered from ${employees.length} total entries)`
                     )}
                 </p>
                 <div>
-                    <a>Previous</a>
-                    <button></button>
-                    <a>Next</a>
+                    <a onClick={() => handlePagination(research.CurrentPage - 1)}>Previous</a>
+                    <button>{research.CurrentPage}</button>
+                    <a onClick={() => handlePagination(research.CurrentPage + 1)}>Next</a>
                 </div>
             </span>
         </div>

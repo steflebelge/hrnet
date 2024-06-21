@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import employeeReducer from '../features/employee/employeeSlice';
+import {thunk} from 'redux-thunk';
+import researchSlice from "../features/research/researchSlice";
+import employeeSlice from "../features/employee/employeeSlice";
 
 const store = configureStore({
     reducer: {
-        employeeSlice: employeeReducer
-    }
+        employeeSlice: employeeSlice,
+        researchSlice: researchSlice,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });
 
 export default store;
