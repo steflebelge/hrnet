@@ -7,11 +7,13 @@ import {addEmployee, setEmployees} from "../../features/employee/employeeSlice";
 import {DatePicker} from "react-date-picker";
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import PopUp from "../../components/PopUp/PopUp";
 
 function CreateEmployee() {
     const employees = useSelector((state) => state.employeeSlice.employees);
     const {control, register, setValue, handleSubmit, formState: {errors}} = useForm();
+    const [displayPopUp, setDisplayPopUp] = useState(false);
     const dispatch = useDispatch();
 
     const onSubmit = data => {
@@ -27,6 +29,8 @@ function CreateEmployee() {
         };
 
         dispatch(addEmployee({data: cleanData}));
+
+        setDisplayPopUp(true);
     };
 
     function getRandomName() {
@@ -61,7 +65,7 @@ function CreateEmployee() {
 
         allSelects.forEach(function (selectTmp) {
             setValue(selectTmp.getAttribute(('id')), selectTmp.options[Math.floor(Math.random() * selectTmp.options.length)].value);
-        })
+        });
     }
 
     // Exécuter du code spécifique lorsque les employés sont mis à jour
@@ -78,8 +82,28 @@ function CreateEmployee() {
         }
     }, []);
 
+    const stylePopUp = {
+        externe: {
+              "backgroundColor": "#808080c7",
+        },
+        interne:{
+                "backgroundColor": "white",
+        },
+        contenu: {
+            "color": "green",
+        }
+    }
+
     return (
         <div id="CreateEmployee">
+
+            {displayPopUp && (
+                <PopUp
+                    setDisplayPopUp={setDisplayPopUp}
+                    style={stylePopUp}
+                />
+            )}
+
             <form onSubmit={handleSubmit(onSubmit)}>
                 <span>
                     <div>

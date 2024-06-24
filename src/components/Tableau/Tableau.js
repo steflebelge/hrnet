@@ -1,6 +1,7 @@
+import './Tableau.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {setSortAsc, setSortBy} from "../features/research/researchSlice";
+import {setSortAsc, setSortBy} from "../../features/research/researchSlice";
 
 function Tableau({structureTableau}) {
     const research = useSelector((state) => state.researchSlice);

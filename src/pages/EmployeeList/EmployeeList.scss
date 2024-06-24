@@ -19,62 +19,18 @@ div#EmployeeList{
     }
   }
 
-  table{
-    width: 90%;
-    margin: 25px auto;
-    border-collapse: collapse;
-
-    thead{
-      th{
-        position: relative;
-        min-width: 50px;
-        padding-right: 10px;
-
-        &.arrowTop::before,
-        &.arrowDown::after{
-          content: " ";
-          display: block;
-          position: absolute;
-          right: 0;
-          border-left: 5px solid transparent;
-          border-right: 5px solid transparent;
-        }
-        &.arrowTop::before{
-          top: 5px;
-          border-bottom: 5px solid #7a80dd;
-        }
-        &.arrowDown::after{
-          bottom: 5px;
-          border-top: 5px solid #7a80dd;
-        }
-
-        &:hover{
-          cursor: pointer;
-          background-color: #7a80dd5e;
-        }
+  span#bottom{
+    div{
+      a.clickable,
+      button:not(.current){
+        cursor: pointer;
       }
-    }
-
-    tbody {
-      border: 1px solid black;
-      border-left: none;
-      border-right: none;
-
-      tr{
-        border-bottom: 1px solid grey;
-
-        &:nth-child(even),
-        &:hover {
-          background-color: #D6EEEE;
-        }
-
-        &:last-of-type{
-          border-bottom: 1px solid black;
-        }
-
-        th{
-          font-weight: normal;
-        }
+      a:not(.clickable),
+      button.current{
+        pointer-events: none;
+      }
+      button.current{
+        background-color: grey;
       }
     }
   }
