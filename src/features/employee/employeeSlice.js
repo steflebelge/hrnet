@@ -50,7 +50,6 @@ const employeeSlice = createSlice({
             state.currentEmployee.ZipCode = action.payload;
         },
         addEmployee: (state, action) => {
-            console.log(action.payload.data);
             state.employees.push(action.payload.data);
         },
     }

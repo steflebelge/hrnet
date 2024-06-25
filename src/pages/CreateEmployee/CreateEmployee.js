@@ -123,6 +123,7 @@ function CreateEmployee() {
                             name="StartDate"
                             render={({field}) => (
                                 <DatePicker
+                                    required={true}
                                     format="dd-MM-yyyy"
                                     id="StartDate"
                                     onChange={(date) => field.onChange(date)}
@@ -138,6 +139,7 @@ function CreateEmployee() {
                             name="DateofBirth"
                             render={({field}) => (
                                 <DatePicker
+                                    required={true}
                                     format="dd-MM-yyyy"
                                     id="DateofBirth"
                                     onChange={(date) => field.onChange(date)}
