@@ -1,45 +1,86 @@
+@import "../../utils/colors";
+
 div#CreateEmployee{
 
   form{
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     justify-content: center;
     gap: 30px;
 
-    & > span,
     & > fieldset,
     & > div,
     & > button{
       width: 40%;
     }
 
-    label,
-    input,
-    select{
-      //display: block;
-      //width: 80%;
-      //margin: 5px;
-    }
+    fieldset{
+      border: 2px solid $borderColor;
+      background-color: white;
+      padding: 15px;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
 
-    div{
-      //margin-bottom: 10px;
-    }
+      legend{
+        border: 2px solid $borderColor;
+        background-color: white;
+        padding: 5px;
+      }
 
-    input,
-    select,
-    button{
-      //padding: 5px;
+      & > div,
+      & > button{
+        width: 40%;
+      }
+
+      & > div{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        & > label{
+          opacity: 0.8;
+        }
+
+        & > input{
+          border-radius: 2px;
+          border: 1px solid $borderColor;
+          padding: 5px;
+        }
+      }
+
+      div.react-date-picker{
+        input{
+          background: none !important;
+        }
+      }
+
+      &:last-of-type{
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+
+        div,
+        button{
+          width: 45%;
+        }
+
+        button{
+          border-radius: 50px;
+          border: 2px solid $borderColor;
+          cursor: pointer;
+          background-color: $secondColor;
+          font-size: 15px;
+          width: 45%;
+        }
+      }
     }
 
     span.error{
       font-size: 11px;
       margin-left: 5px;
-      color: red;
-    }
-
-    input{
-      //margin-bottom: -5px;
+      color: $errorColor;
     }
   }
 }

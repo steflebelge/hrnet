@@ -1,5 +1,7 @@
+@import "../../utils/colors";
+
 table{
-  width: 90%;
+  width: 95%;
   margin: 25px auto;
   border-collapse: collapse;
 
@@ -35,12 +37,12 @@ table{
   }
 
   tbody {
-    border: 1px solid black;
+    border: 1px solid $black;
     border-left: none;
     border-right: none;
 
     tr{
-      border-bottom: 1px solid grey;
+      border-bottom: 1px solid $borderColor;
 
       &:nth-child(even),
       &:hover {
@@ -48,11 +50,14 @@ table{
       }
 
       &:last-of-type{
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid $black;
       }
 
       th{
         font-weight: normal;
+        overflow: hidden; /* make sure it hides the content that overflows */
+        white-space: nowrap; /* don't break the line */
+        text-overflow: ellipsis;
       }
     }
   }

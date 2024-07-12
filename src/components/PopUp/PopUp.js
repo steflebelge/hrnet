@@ -1,9 +1,21 @@
 import "./PopUp.scss";
 
-function PopUp({style, contenu="Employé créé avec succès.", setDisplayPopUp}) {
+function PopUp({contenu="Employee added successfully.", setDisplayPopUp}) {
     function handleClick(elt) {
         if(elt.target.id === "externe")
             setDisplayPopUp(false);
+    }
+
+    const style = {
+        externe: {
+            "backgroundColor": "#808080c7",
+        },
+        interne: {
+            "backgroundColor": "white",
+        },
+        contenu: {
+            "color": "green",
+        }
     }
 
     return (

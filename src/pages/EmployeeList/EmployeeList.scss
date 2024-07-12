@@ -1,7 +1,11 @@
+@import "../../utils/colors";
+
 div#EmployeeList{
+  width: 95vw !important;
+  padding: 10px !important;
 
   span{
-    width: 80%;
+    width: 95%;
     margin: 25px auto;
     display: flex;
     justify-content: space-between;
@@ -12,7 +16,7 @@ div#EmployeeList{
 
     &#bottom div{
       display: flex;
-      gap: 50px;
+      gap: 20px;
     }
     p{
       margin: 0;
@@ -20,17 +24,30 @@ div#EmployeeList{
   }
 
   span#bottom{
+    width: 95%;
+
+    p{
+      color: $black;
+    }
+
     div{
+      a,
+      button{
+        padding: 4px 11px;
+        border-radius: 50px;
+        width: max-content;
+        text-align: center;
+        border: none;
+      }
       a.clickable,
       button:not(.current){
         cursor: pointer;
+        background-color: $white;
       }
       a:not(.clickable),
       button.current{
         pointer-events: none;
-      }
-      button.current{
-        background-color: grey;
+        background-color: $borderColor;
       }
     }
   }

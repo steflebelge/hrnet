@@ -1,12 +1,26 @@
 import './Tableau.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {setSortAsc, setSortBy} from "../../features/research/researchSlice";
+import {setMatchingEmployees, setSortAsc, setSortBy} from "../../features/research/researchSlice";
+import {setEmployees} from "../../features/employee/employeeSlice";
+import {updatePagination} from "../../utils/thunk";
 
-function Tableau({structureTableau}) {
+function Tableau() {
     const research = useSelector((state) => state.researchSlice);
-    let keysStructureTableau = Object.keys(structureTableau);
     const dispatch = useDispatch();
+    const structureTableau = {
+        "FirstName": "Firstname",
+        "LastName": "Lastname",
+        "StartDate": "Start date",
+        "Department": "Department",
+        "DateofBirth": "Date of birth",
+        "Street": "Street",
+        "City": "City",
+        "State": "State",
+        "ZipCode": "Zip code",
+    };
+    let keysStructureTableau = Object.keys(structureTableau);
+
 
     function handleChangeSort(keyTri) {
         //verif de la keyTri
@@ -31,6 +45,16 @@ function Tableau({structureTableau}) {
         document.getElementById(research.SortBy).classList.remove(research.SortAsc ? "arrowDown" : "arrowTop");
     }, [research.SortBy, research.SortAsc]);
 
+
+    useEffect(() => {
+        //si pas d employés, on va chercher dans le localStorage
+        if (research.MatchingEmployees.length === 0) {
+            dispatch(setEmployees(JSON.parse(localStorage.getItem('employees'))));
+            dispatch(setMatchingEmployees(JSON.parse(localStorage.getItem('employees'))));
+            dispatch(updatePagination());
+        }
+    }, []);
+
     return (
         <table>
             <thead>
@@ -51,7 +75,7 @@ function Tableau({structureTableau}) {
                     && (
                         <tr key={indexEmployees}>
                             {keysStructureTableau.map((keyTmp, indexKeys) => (
-                                <th key={indexKeys}>{employeeTmp[keyTmp]}</th>
+                                <th title={employeeTmp[keyTmp]} key={indexKeys}>{employeeTmp[keyTmp]}</th>
                             ))}
                         </tr>
                     )

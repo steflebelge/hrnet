@@ -20,6 +20,7 @@
     "@reduxjs/toolkit": "^2.2.5",
     "redux-devtools-extension": "^2.13.9",
     "react-scripts": "5.0.1",
+    "simple-dropdown-library": "^0.6.7",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

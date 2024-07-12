@@ -1,8 +1,46 @@
+@import "../../utils/colors";
+
 header#Header{
-  margin-bottom: 50px;
-  border-bottom: 2px solid gray;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  height: 20%;
+  background-color: $secondColor;
+  z-index: 2;
+  position: relative;
+
+  div{
+    width: 50%;
+    box-sizing: border-box;
+
+    &:first-of-type{
+      border-right: 2px solid $borderColor;
+    }
+
+    a{
+      color: $black;
+      font-size: 20px;
+      font-weight: bold;
+      height: 100%;
+      padding-top: 25px;
+      padding-bottom: 25px;
+      display: block;
+    }
+
+    &.selected{
+      pointer-events: none;
+      background-color: $mainColor;
+
+      a{
+        text-decoration: none;
+      }
+    }
+  }
 
   h1{
-    text-align: center;
+    border-top: 2px solid $borderColor;
+    width: 100%;
+    padding-top: 20px;
+    margin-top: 0;
   }
 }

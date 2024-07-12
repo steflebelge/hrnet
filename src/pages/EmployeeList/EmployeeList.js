@@ -15,17 +15,6 @@ function EmployeeList() {
     const employees = useSelector((state) => state.employeeSlice.employees);
     const research = useSelector((state) => state.researchSlice);
     const nbTotalPages = Math.ceil(research.MatchingEmployees.length / research.NbPageShow);
-    const structureTableau = {
-        "FirstName": "Firstname",
-        "LastName": "Lastname",
-        "StartDate": "Start date",
-        "Department": "Department",
-        "DateofBirth": "Date of birth",
-        "Street": "Street",
-        "City": "City",
-        "State": "State",
-        "ZipCode": "Zip code",
-    };
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -55,7 +44,7 @@ function EmployeeList() {
     }
 
     return (
-        <div id="EmployeeList">
+        <div id="EmployeeList" className="content">
             <span id="top">
                <div>
                     Show
@@ -75,9 +64,7 @@ function EmployeeList() {
                 </div>
             </span>
 
-            <Tableau
-                structureTableau={structureTableau}
-            />
+            <Tableau/>
 
             <span id="bottom">
                 <p>

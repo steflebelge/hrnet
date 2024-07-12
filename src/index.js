@@ -8,7 +8,6 @@ import EmployeeList from "./pages/EmployeeList/EmployeeList";
 import Error from "./pages/Error/Error";
 import store from "./utils/store";
 import {Provider} from 'react-redux';
-import Home from "./pages/Home/Home";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,8 +16,7 @@ root.render(
             <Router>
                 <Header/>
                 <Routes>
-                    <Route path="/" element={<Home/>}/>
-                    <Route path="/CreateEmployee" element={<CreateEmployee/>}/>
+                    <Route path="/" element={<CreateEmployee/>}/>
                     <Route path="/EmployeeList" element={<EmployeeList/>}/>
                     <Route path="*" element={<Error/>}/>
                 </Routes>
