@@ -23,9 +23,13 @@ function CreateEmployee() {
 
         const startDateUtc = toZonedTime(data.StartDate, timeZone);
         const dateOfBirthUtc = toZonedTime(data.DateofBirth, timeZone);
+        const state = document.querySelector('select[name="State"]').value;
+        const departement = document.querySelector('select[name="Department"]').value;
 
         let cleanData = {
             ...data,
+            Department: departement,
+            State: state,
             DateofBirth: format(dateOfBirthUtc, 'yyyy-MM-dd'),
             StartDate: format(startDateUtc, 'yyyy-MM-dd'),
         };
@@ -122,7 +126,6 @@ function CreateEmployee() {
                     <div>
                         <label htmlFor="State">State</label>
                         <SimpleDropdown
-                            uniqueKey="State"
                             listeAttributsSelect={{
                                 name: "State",
                                 id: "State",
@@ -205,7 +208,6 @@ function CreateEmployee() {
                     <div>
                         <label htmlFor="Department">Departement</label>
                         <SimpleDropdown
-                            uniqueKey="Department"
                             listeAttributsSelect={{
                                 name: "Department",
                                 id: "Department",
