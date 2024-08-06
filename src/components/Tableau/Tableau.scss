@@ -55,9 +55,10 @@ table{
 
       th{
         font-weight: normal;
-        overflow: hidden; /* make sure it hides the content that overflows */
-        white-space: nowrap; /* don't break the line */
+        overflow: hidden;
+        white-space: nowrap;
         text-overflow: ellipsis;
+        max-width: 75px;
       }
     }
   }

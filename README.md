@@ -36,6 +36,10 @@ Une fois le projet installé et lancé, vous arriverez sur la page de création 
 
 Cette application utilise le paquet npm 'simple-dropdown-library' en version 0.7.3.
 
+## Prérequis
+
+Ce projet nécessite un affichage minimal de 890*750 pixels pour s'afficher correctement.
+
 ## Contributeurs
 
 - Gualandi Stefan

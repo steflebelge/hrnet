@@ -76,7 +76,7 @@ function CreateEmployee() {
                         {errors.LastName && <span className="error">Ce champs est requis</span>}
                     </div>
                     <div>
-                        <label htmlFor="StartDate">StartDate</label>
+                        <label htmlFor="StartDate">Start date</label>
                         <Controller
                             control={control}
                             name="StartDate"
@@ -92,7 +92,7 @@ function CreateEmployee() {
                         />
                     </div>
                     <div>
-                        <label htmlFor="DateofBirth">DateofBirth</label>
+                        <label htmlFor="DateofBirth">Date of birth</label>
                         <Controller
                             control={control}
                             name="DateofBirth"
