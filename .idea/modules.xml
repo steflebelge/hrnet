@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/hrnet.iml" filepath="$PROJECT_DIR$/.idea/hrnet.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../simple-dropdown-library/.idea/simple-dropdown-library.iml" filepath="$PROJECT_DIR$/../simple-dropdown-library/.idea/simple-dropdown-library.iml" />
-    </modules>
-  </component>
-</project>
