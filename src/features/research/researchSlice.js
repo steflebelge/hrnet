@@ -44,18 +44,22 @@ const researchSlice = createSlice({
             state.MatchingEmployees = sortEmployees(state.MatchingEmployees, state.SortBy, state.SortAsc);
         },
         setMatchingEmployees: (state, action) => {
-            state.MatchingEmployees = sortEmployees(action.payload, state.SortBy, state.SortAsc);
-            state.NbTotalSearch = action.payload.length;
+            if(action.payload) {
+                state.MatchingEmployees = sortEmployees(action.payload, state.SortBy, state.SortAsc);
+                state.NbTotalSearch = action.payload.length;
+            }
         },
     }
 });
 
 function sortEmployees(employeesListe, SortBy, SortAsc) {
-    return employeesListe.sort((a, b) => {
-        if (a[SortBy] < b[SortBy]) return (SortAsc ? -1 : 1);
-        if (a[SortBy] > b[SortBy]) return (SortAsc ? 1 : -1);
-        return 0;
-    });
+    if(employeesListe) {
+        return employeesListe.sort((a, b) => {
+            if (a[SortBy] < b[SortBy]) return (SortAsc ? -1 : 1);
+            if (a[SortBy] > b[SortBy]) return (SortAsc ? 1 : -1);
+            return 0;
+        });
+    }
 }
 
 export const {

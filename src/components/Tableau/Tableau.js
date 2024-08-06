@@ -48,7 +48,7 @@ function Tableau() {
 
     useEffect(() => {
         //si pas d employés, on va chercher dans le localStorage
-        if (research.MatchingEmployees.length === 0) {
+        if (research && research.MatchingEmployees.length === 0) {
             dispatch(setEmployees(JSON.parse(localStorage.getItem('employees'))));
             dispatch(setMatchingEmployees(JSON.parse(localStorage.getItem('employees'))));
             dispatch(updatePagination());

@@ -41,14 +41,14 @@ function CreateEmployee() {
 
     // Exécuter du code spécifique lorsque les employés sont mis à jour
     useEffect(() => {
-        if (employees.length > 0
+        if (employees && employees.length > 0
             && JSON.stringify(employees) !== localStorage.getItem('employees')) {
             localStorage.setItem('employees', JSON.stringify(employees));
         }
     }, [employees]);
     useEffect(() => {
         //si pas d employés, on va chercher dans le localStorage
-        if (employees.length === 0) {
+        if (employees && employees.length === 0) {
             dispatch(setEmployees(JSON.parse(localStorage.getItem('employees'))));
         }
     }, []);
